@@ -8,11 +8,14 @@
   box-sizing: border-box;
 }
 
-body,
+body {
+	font-family: 'Times', serif;
+}
+
 input,
 button {
-	font-family: 'Nunito', sans-serif;
-}
+	font-family: 'Veranda', sans-serif;
+} 
 
 body {
   font: 1em/1.5;
@@ -71,7 +74,7 @@ legend {
 
 .totalCostAmount {
 	font-weight: bold;
-	padding-top: .5em;
+	z-index: 1;
 }
 
 input[type="text"],
@@ -131,6 +134,13 @@ input,
 select, 
 option {
 	font-family: 'roboto', sans-serif;
+}
+
+.errorMessage {
+	color: #de0d0d;
+	font-size: 13px;
+	margin-top: -10px;
+	margin-bottom: 10px;
 }
 
 /* ================================= 

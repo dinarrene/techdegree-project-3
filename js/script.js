@@ -1,3 +1,7 @@
+/*** 
+Set intitial input focus on name field & hide other-title field
+***/
+
 window.onload = function () {
     document.getElementById("name").focus();
     document.getElementById("other-title").style.display = "none";
@@ -5,17 +9,37 @@ window.onload = function () {
 }
 
 
+/*** 
+Event listener to show other-title field
+***/
+
+title.addEventListener('change', () => {
+    if (document.getElementById("title").value == "other") {
+        document.getElementById("other-title").style.display = "block";
+    } else {
+        document.getElementById("other-title").style.display = "none";
+    }
+})
+
+
+/*** 
+Global variables for T-shirt Info section
+***/
 
 const selectTheme = document.querySelectorAll("#design > option");
-const colorOptions = document.querySelectorAll("#color > option")
+const colorOptions = document.querySelectorAll("#color > option");
+const colorOptionMenu = document.querySelectorAll('#colors-js-puns');
 const defaultColorMenu = document.createElement('option');
 
 
+/*** 
+Set default color dropdown menu value and hide colorOptionMenu by default
+***/
 
 function setColorOptions() {
     if (selectTheme[0].selected) {
-        for (let i = 0; i < colorOptions.length; i++) {
-            colorOptions[i].hidden = true;
+        for(let i = 0; i < colorOptionMenu.length; i++) {
+            colorOptionMenu[i].hidden = true;
         }
     }
     let colorMenu = document.getElementById('color');
@@ -24,13 +48,21 @@ function setColorOptions() {
     defaultColorMenu.textContent = 'Please Select a T-shirt Theme'
     colorMenu.insertBefore(defaultColorMenu, colorMenu.childNodes[1]);
     if (!selectTheme[0].selected) {
+        for(let i = 0; i < colorOptionMenu.length; i++) {
+            colorOptionMenu[i].hidden = false;
+        }
         defaultColorMenu.hidden = true;
     }
+    
 }
 
 
+/*** 
+Function to set available color options based on design choice
+***/
 
 function changeColorOptions() {
+    
     selectTheme[0].remove();
     if (selectTheme[1].selected) {
         setColorOptions();
@@ -54,24 +86,27 @@ function changeColorOptions() {
 }
 
 
-
-title.addEventListener('change', () => {
-    if (document.getElementById("title").value == "other") {
-        document.getElementById("other-title").style.display = "block";
-    } else {
-        document.getElementById("other-title").style.display = "none";
-    }
-})
+/*** 
+Event listener to show color options
+***/
 
 design.addEventListener('change', () => {
     changeColorOptions();
 })
 
 
+/*** 
+Global variables for activities section
+***/
 
 const activities = document.querySelector('.activities');
 const checkboxes = document.querySelectorAll('.activities input');
 let totalCost = 0;
+
+
+/*** 
+Function to create/add/remove totalCost div
+***/
 
 function totalCostDiv(total) {
     if (document.querySelector('div.totalCostAmount')) {
@@ -86,6 +121,10 @@ function totalCostDiv(total) {
         costDiv.remove();
     }
 }
+
+/*** 
+Event listener to calculate totalCost & disable/enable conflicting activities
+***/
 
 let clicked = '';
 
@@ -116,10 +155,18 @@ activities.addEventListener('change', (e) => {
 })
 
 
+/*** 
+Global variables for payment section
+***/
 
 const paymentInfo = document.querySelector('#payment');
 const paymentMethod = document.querySelectorAll('#payment > option');
 const selectPaymentMethod = paymentMethod[0];
+
+
+/*** 
+Function to set credit card field as default payment view 
+***/
 
 function paymentDefaultView() {
     document.querySelector('div#credit-card').hidden = true;
@@ -131,6 +178,10 @@ function paymentDefaultView() {
 }
 
 paymentDefaultView();
+
+/*** 
+Function to control which payment option if visible depending on dropdown selection
+***/
 
 function paymentSelection() {
 
@@ -151,23 +202,39 @@ function paymentSelection() {
     }
 }
 
+/*** 
+Event listener to change payment option
+***/
+
 paymentInfo.addEventListener('change', () => {
     paymentMethod[0].hidden = true;
     paymentSelection();
 })
 
 
-
+/*** 
+Global variables input and button event listeners
+***/
 
 const button = document.querySelector("button");
 const name = document.querySelector("#name");
 const email = document.querySelector("#mail");
 const errorMessage = document.createElement('div');
 
+
+/*** 
+Function to create validation error message
+***/
+
 function createErrorMessage(errorText){
     errorMessage.setAttribute('class', 'errorMessage');
     errorMessage.textContent = `*${errorText}`;
 }
+
+
+/****************************
+VALIDATOR FUNCTIONS
+*****************************/
 
 const nameValidator = () => {
     let nameVal = name.value;
@@ -209,20 +276,10 @@ const checkboxValidator = () => {
             return true
         } 
     }
-
-    // if (clicked.checked) {
-    //     checkboxes[i].parentNode.style.color = '#ebebeb';
-    // } else {
-    //     checkboxes[i].parentNode.style.color = '';
-    // }
         
-        // for(let i = 0; i < checkboxes.length; i++) {
-        //     // if(checkboxes[i].disabled = true){
-        //     //     checkboxes[i].disabled = false;
-        //     // }
-        //     checkboxes[i].parentNode.style.color = "#d60000";
-        // }
- 
+    for(let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].parentNode.style.color = "#d60000";
+    }
     
     createErrorMessage('Please select at least 1 activity.');
     activities.after(errorMessage);
@@ -234,8 +291,13 @@ let fieldsets = document.querySelectorAll('fieldset');
 const creditCardValidator = () => {
     let ccNum = document.querySelector('#cc-num');
     ccNumVal = ccNum.value;
-        if (ccNumVal.length < 8 || ccNumVal.length > 19 || isNaN(ccNumVal)){
-            createErrorMessage('Please enter a valid credit card number.');
+        if (ccNumVal.length === 0 || ccNumVal.length === '') {
+            createErrorMessage('Please enter a credit card number.');
+            ccNum.style.borderColor = "#d60000";
+            ccNum.after(errorMessage);
+            return false;
+        } else if (ccNumVal.length < 13 || ccNumVal.length > 16 || isNaN(ccNumVal)){
+            createErrorMessage('Please enter a number between 13 and 16 digits long.');
             ccNum.style.borderColor = "#d60000";
             ccNum.after(errorMessage);
             return false;
@@ -285,7 +347,9 @@ const paymentValidator = () => {
 }
 
 
-
+/****************************
+EVENT LISTENERS
+*****************************/
 
 name.addEventListener('input', (e) => {
     nameValidator();
@@ -312,11 +376,6 @@ activities.addEventListener('click', (e) => {
     checkboxValidator();
 })
 
-
-
-
-
-form = document.querySelector('form');
 
 button.addEventListener('click', (e) => {
     nameValidator();

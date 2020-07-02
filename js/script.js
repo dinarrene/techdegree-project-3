@@ -105,7 +105,7 @@ activities.addEventListener('change', (e) => {
         if (clickedDayAndTime === checkboxData && clicked !== checkboxes[i]) {
             if (clicked.checked) {
                 checkboxes[i].disabled = true;
-                checkboxes[i].parentNode.style.color = 'grey';
+                checkboxes[i].parentNode.style.color = '#ebebeb';
             } else {
                 checkboxes[i].disabled = false;
                 checkboxes[i].parentNode.style.color = '';
@@ -172,12 +172,12 @@ function createErrorMessage(errorText){
 const nameValidator = () => {
     let nameVal = name.value;
     if (nameVal.length == 0) {
-        name.style.borderColor = "red";
+        name.style.borderColor = "#d60000";
         createErrorMessage('Please enter your name.');
         name.after(errorMessage);
         return false;
     } else {
-        name.style.borderColor = "green";
+        name.style.borderColor = "";
         errorMessage.remove();
         return true;
     } 
@@ -188,11 +188,11 @@ const emailValidator = () => {
     let atIndex = emailVal.indexOf("@");
     let periodIndex = emailVal.lastIndexOf(".");
     if (atIndex > 1 && periodIndex > (atIndex + 1)){
-        mail.style.borderColor = "green";
+        mail.style.borderColor = "";
         errorMessage.remove();
         return true;
     }   else {
-        mail.style.borderColor = "red";
+        mail.style.borderColor = "#d60000";
         createErrorMessage('Please enter a valid email.');
         email.after(errorMessage);
         return false;
@@ -202,11 +202,28 @@ const emailValidator = () => {
 const checkboxValidator = () => {
     for(let i = 0; i < checkboxes.length; i++){
         if(checkboxes[i].checked){
+            for(let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].parentNode.style.color = "";
+            }
             errorMessage.remove();
             return true
         } 
     }
-    activities.style.borderColor = "red";
+
+    // if (clicked.checked) {
+    //     checkboxes[i].parentNode.style.color = '#ebebeb';
+    // } else {
+    //     checkboxes[i].parentNode.style.color = '';
+    // }
+        
+        // for(let i = 0; i < checkboxes.length; i++) {
+        //     // if(checkboxes[i].disabled = true){
+        //     //     checkboxes[i].disabled = false;
+        //     // }
+        //     checkboxes[i].parentNode.style.color = "#d60000";
+        // }
+ 
+    
     createErrorMessage('Please select at least 1 activity.');
     activities.after(errorMessage);
     return false;
@@ -219,10 +236,11 @@ const creditCardValidator = () => {
     ccNumVal = ccNum.value;
         if (ccNumVal.length < 8 || ccNumVal.length > 19 || isNaN(ccNumVal)){
             createErrorMessage('Please enter a valid credit card number.');
-            ccNum.style.borderColor = "red";
+            ccNum.style.borderColor = "#d60000";
             ccNum.after(errorMessage);
             return false;
         } else {   
+            ccNum.style.borderColor = "";
             errorMessage.remove();   
             return true;
         }
@@ -233,10 +251,11 @@ const zipCodeValidator = () => {
     zipVal = zipcode.value;
         if (zipVal.length !== 5 || isNaN(zipVal)) {
             createErrorMessage('Must be valid zipcode.');
-            zipcode.style.borderColor = "red";
+            zipcode.style.borderColor = "#d60000";
             zipcode.after(errorMessage);
             return false;
         } else {  
+            zipcode.style.borderColor = "";
             errorMessage.remove();    
             return true;
         }
@@ -247,10 +266,11 @@ const cvvValidator = () => {
     cvvVal = cvv.value;
         if (cvvVal.length !== 3 || isNaN(cvvVal)) {
             createErrorMessage('Must be valid CVV.');
-            cvv.style.borderColor = "red";
+            cvv.style.borderColor = "#d60000";
             cvv.after(errorMessage);
             return false;
         } else {  
+            cvv.style.borderColor = "";
             errorMessage.remove();    
             return true;
         }
@@ -302,7 +322,7 @@ button.addEventListener('click', (e) => {
     nameValidator();
     emailValidator();
     checkboxValidator();
-  
+    paymentValidator();
     
 
     if (!nameValidator()) {
@@ -317,7 +337,7 @@ button.addEventListener('click', (e) => {
        e.preventDefault();
     }
 
-    // if(!paymentValidator()) {
-    //     e.preventDefault();
-    // }
+    if(!paymentValidator()) {
+        e.preventDefault();
+    }
 })

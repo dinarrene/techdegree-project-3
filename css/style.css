@@ -8,29 +8,43 @@
   box-sizing: border-box;
 }
 
-body {
+
+body, 
+input,
+button {
+	font-family: 'Verdana', sans-serif;
+} 
+
+legend,
+span, 
+h1,
+.totalCostAmount {
 	font-family: 'Times', serif;
 }
 
-input,
-button {
-	font-family: 'Veranda', sans-serif;
-} 
-
 body {
-  font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+  	font: 1em/1.5;
+	background: #fff;
 }
 
 header {
-	text-align: center;  
+	text-align: center;
+}
+
+span {
+	font-size: 2em;
 }
 
 h1 {
-	font-size: 2.5em;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
-	margin: 0;
+	font-size: 3.5em;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+	margin-bottom: 20px;
+}
+
+.totalCostAmount {
+	font-size: 1.4em;
+	font-weight: 700;
+	color: #2a88ad;
 }
 
 a {
@@ -43,9 +57,24 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.6);
+	background: #ffffffff;
 	border-radius: 3px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+}
+
+header {
+	background: #2a88ad;
+	color: #fff;
+	margin-top: 50px;
+	border-radius: 20px 20px 0 0;
+	width: 100%;
+	height: 200px;
+
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.068);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.068);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.068);
 }
 
 fieldset,
@@ -60,22 +89,21 @@ fieldset {
 }
 
 legend,
-button,
-.totalCostAmount {
-	font-size: 1.25em;	
+button {
+	font-size: 1.5em;	
 }
+
+
 
 legend {
 	font-weight: bold;
+	color: #2a88ad;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
+	border-top: 2px solid #2a88ad;
 	margin-bottom: 1.125em;
 }
 
-.totalCostAmount {
-	font-weight: bold;
-	z-index: 1;
-}
+
 
 input[type="text"],
 input[type="email"],
@@ -83,8 +111,9 @@ legend {
 	width: 100%;
 }
 
-label {
-	color: #000;
+label,
+p {
+	color: #999999;
 	display: block;
 	margin-bottom: .5em;
 }
@@ -98,14 +127,17 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #e9f6fb;
-	border: 2px solid rgb(111, 157, 220);
-	border-radius: 3px;
+	background: #ffffff;
+	border: 2px solid #2a88ad;
+	border-radius: 5px;
 	outline: none;
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 }
 
 input:focus {
-	background: #fff;
+	background: #ececec;
 	border-color: #5e97b0;
 	transition: border-color .4s, background-color .4s;
 }
@@ -118,10 +150,13 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: #2a88ad;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
-	border: 2px solid black;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	border-radius: 4px;
 	transition: all 0.5s;
 }
@@ -130,14 +165,21 @@ button:hover {
 	background: #6F9DDC;
 }
 
-input, 
-select, 
-option {
-	font-family: 'roboto', sans-serif;
+select {
+	font-size: 1em;
+	color: #999;
+	line-height: 1.3;
+	padding: 5px 10px 5px 10px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	box-shadow: 0 1px 0 1px rgba(0, 0, 0,.04);
+	background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 100%);
 }
 
+
+
 .errorMessage {
-	color: #de0d0d;
+	color: #d60000;
 	font-size: 13px;
 	margin-top: -10px;
 	margin-bottom: 10px;
@@ -211,7 +253,7 @@ option {
 
 @media (min-width: 680px) {
 	header {
-		padding: 4.65em 0 2.5em;
+		padding: 3em 0;
 	}
 	.col {
 		float: left;

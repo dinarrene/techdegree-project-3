@@ -123,7 +123,7 @@ function totalCostDiv(total) {
 }
 
 /*** 
-Event listener to calculate totalCost & disable/enable conflicting activities
+Event listener to calculate totalCost, disable/enable conflicting activities, & validate checkboxes
 ***/
 
 let clicked = '';
@@ -152,6 +152,8 @@ activities.addEventListener('change', (e) => {
         }
     }
     totalCostDiv(totalCost);
+
+    checkboxValidator();
 })
 
 
@@ -184,11 +186,7 @@ Function to control which payment option if visible depending on dropdown select
 ***/
 
 function paymentSelection() {
-
-    if (paymentMethod[0].selected) {
-        paymentDefaultView();
-    } else {
-        paymentDefaultView()
+    
         if (paymentMethod[1].selected) {
             paymentDefaultView();
             document.querySelector('div#credit-card').hidden = false;
@@ -200,7 +198,6 @@ function paymentSelection() {
             document.querySelector('div#bitcoin').hidden = false;
         }
     }
-}
 
 /*** 
 Event listener to change payment option
@@ -216,36 +213,33 @@ paymentInfo.addEventListener('change', () => {
 Global variables input and button event listeners
 ***/
 
+const form = document.querySelector("form");
 const button = document.querySelector("button");
 const name = document.querySelector("#name");
 const email = document.querySelector("#mail");
-const errorMessage = document.createElement('div');
+const nameErrorMessage = document.createElement('div');
+const emailErrorMessage = document.createElement('div');
+const checkboxErrorMessage = document.createElement('div');
+const ccErrorMessage = document.createElement('div');
+const zipErrorMessage = document.createElement('div');
+const cvvErrorMessage = document.createElement('div');
 
 
 /*** 
-Function to create validation error message
-***/
-
-function createErrorMessage(errorText){
-    errorMessage.setAttribute('class', 'errorMessage');
-    errorMessage.textContent = `*${errorText}`;
-}
-
-
-/****************************
 VALIDATOR FUNCTIONS
-*****************************/
+***/
 
 const nameValidator = () => {
     let nameVal = name.value;
     if (nameVal.length == 0) {
         name.style.borderColor = "#d60000";
-        createErrorMessage('Please enter your name.');
-        name.after(errorMessage);
+        nameErrorMessage.setAttribute('class', 'errorMessage');
+        nameErrorMessage.textContent = 'Please enter your name.';
+        name.after(nameErrorMessage);
         return false;
     } else {
         name.style.borderColor = "";
-        errorMessage.remove();
+        nameErrorMessage.remove();
         return true;
     } 
 }
@@ -256,12 +250,13 @@ const emailValidator = () => {
     let periodIndex = emailVal.lastIndexOf(".");
     if (atIndex > 1 && periodIndex > (atIndex + 1)){
         mail.style.borderColor = "";
-        errorMessage.remove();
+        emailErrorMessage.remove();
         return true;
     }   else {
         mail.style.borderColor = "#d60000";
-        createErrorMessage('Please enter a valid email.');
-        email.after(errorMessage);
+        emailErrorMessage.setAttribute('class', 'errorMessage');
+        emailErrorMessage.textContent = 'Please enter a valid email.';
+        email.after(emailErrorMessage);
         return false;
     }
 }
@@ -272,7 +267,7 @@ const checkboxValidator = () => {
             for(let i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].parentNode.style.color = "";
             }
-            errorMessage.remove();
+            checkboxErrorMessage.remove();
             return true
         } 
     }
@@ -281,29 +276,45 @@ const checkboxValidator = () => {
         checkboxes[i].parentNode.style.color = "#d60000";
     }
     
-    createErrorMessage('Please select at least 1 activity.');
-    activities.after(errorMessage);
+    checkboxErrorMessage.setAttribute('class', 'errorMessage')
+    checkboxErrorMessage.textContent = 'Please select at least 1 activity.';
+    activities.after(checkboxErrorMessage);
     return false;
 }
 
 let fieldsets = document.querySelectorAll('fieldset');
 
+// const paymentValidator = () => {
+//     let payMethod = document.querySelector('select#payment').value;
+//     if (payMethod === 'paypal') { 
+//         console.log('paypal is happening');
+//         return true;
+//     } else if (payMethod === 'bitcoin') {
+//         console.log('bitcoin is happening');
+//         return true;
+//     }
+// }
+
 const creditCardValidator = () => {
     let ccNum = document.querySelector('#cc-num');
     ccNumVal = ccNum.value;
         if (ccNumVal.length === 0 || ccNumVal.length === '') {
-            createErrorMessage('Please enter a credit card number.');
             ccNum.style.borderColor = "#d60000";
-            ccNum.after(errorMessage);
+            ccErrorMessage.setAttribute('class', 'errorMessage');
+            ccErrorMessage.textContent = 'Please enter a credit card number.';
+            ccNum.after(ccErrorMessage);
+            console.log("there's a problem"); 
             return false;
         } else if (ccNumVal.length < 13 || ccNumVal.length > 16 || isNaN(ccNumVal)){
-            createErrorMessage('Please enter a number between 13 and 16 digits long.');
             ccNum.style.borderColor = "#d60000";
-            ccNum.after(errorMessage);
+            ccErrorMessage.setAttribute('class', 'errorMessage');
+            ccErrorMessage.textContent = 'Entry must be 13-16 digits long.';
+            ccNum.after(ccErrorMessage);
             return false;
         } else {   
             ccNum.style.borderColor = "";
-            errorMessage.remove();   
+            ccErrorMessage.remove();  
+            console.log("cc works"); 
             return true;
         }
 }
@@ -312,13 +323,15 @@ const zipCodeValidator = () => {
     let zipcode = document.querySelector('#zip');
     zipVal = zipcode.value;
         if (zipVal.length !== 5 || isNaN(zipVal)) {
-            createErrorMessage('Must be valid zipcode.');
             zipcode.style.borderColor = "#d60000";
-            zipcode.after(errorMessage);
+            zipErrorMessage.setAttribute('class', 'errorMessage');
+            zipErrorMessage.textContent = 'Must be a valid zipcode.';
+            zipcode.after(zipErrorMessage);
             return false;
         } else {  
             zipcode.style.borderColor = "";
-            errorMessage.remove();    
+            zipErrorMessage.remove();
+            console.log("zip works");     
             return true;
         }
 }
@@ -327,24 +340,20 @@ const cvvValidator = () => {
     let cvv = document.querySelector('#cvv');
     cvvVal = cvv.value;
         if (cvvVal.length !== 3 || isNaN(cvvVal)) {
-            createErrorMessage('Must be valid CVV.');
             cvv.style.borderColor = "#d60000";
-            cvv.after(errorMessage);
+            cvvErrorMessage.setAttribute('class', 'errorMessage');
+            cvvErrorMessage.textContent = 'Must be a valid CVV.'; 
+            cvv.after(cvvErrorMessage);
             return false;
         } else {  
             cvv.style.borderColor = "";
-            errorMessage.remove();    
+            cvvErrorMessage.remove(); 
+            console.log("cvv works");    
             return true;
         }
 }
 
-const paymentValidator = () => {
-    if(paymentMethod[1]) {
-        creditCardValidator();
-        zipCodeValidator();
-        cvvValidator();
-    }
-}
+
 
 
 /****************************
@@ -372,31 +381,52 @@ email.addEventListener('input', (e) => {
     }
 })
 
-activities.addEventListener('click', (e) => {
-    checkboxValidator();
-})
-
-
-button.addEventListener('click', (e) => {
+form.addEventListener('submit', (e) => {
+    
     nameValidator();
     emailValidator();
     checkboxValidator();
-    paymentValidator();
-    
+    // paymentValidator();
 
+    let payWithValue = document.querySelector('select#payment').value; 
+    if(payWithValue === 'credit card') {
+        creditCardValidator();
+        zipCodeValidator();
+        cvvValidator();
+    }
+
+    if (!creditCardValidator()) {
+        e.preventDefault();
+        console.log('cc validator');
+    }
+
+    if (!zipCodeValidator()) {
+        e.preventDefault();
+        console.log('zip validator');
+    }
+
+    if (!cvvValidator()) {
+        e.preventDefault();
+        console.log('cvv validator');
+    }
+    
     if (!nameValidator()) {
         e.preventDefault();
+        console.log('name validator');
     }
 
     if (!emailValidator()) {
         e.preventDefault();
+        console.log('email validator');
     }
 
     if(!checkboxValidator()) {
        e.preventDefault();
+       console.log('boxes validator');
     }
 
-    if(!paymentValidator()) {
-        e.preventDefault();
-    }
+    // if(!paymentValidator()) {
+    //     e.preventDefault();
+    //     console.log('payment validator');
+    //  }
 })

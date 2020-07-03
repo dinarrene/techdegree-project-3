@@ -266,10 +266,10 @@ const emailValidator = () => {
 const checkboxValidator = () => {
     for(let i = 0; i < checkboxes.length; i++){
         if(checkboxes[i].checked){
-            for(let i = 0; i < checkboxes.length; i++) {
-                if(checkboxes[i].parentNode.style.color === "#d60000") {
+            for(let i = 0; i < checkboxes.length; i++) {              
+                // if(checkboxes[i].parentNode.style.color === "#d60000") {
                 checkboxes[i].parentNode.style.color = "";
-                }
+                // }
             }
             checkboxErrorMessage.remove();
             return true

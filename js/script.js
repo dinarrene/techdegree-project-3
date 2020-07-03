@@ -171,10 +171,11 @@ Function to set credit card field as default payment view
 ***/
 
 function paymentDefaultView() {
+    paymentMethod[0].remove();
     document.querySelector('div#credit-card').hidden = true;
     document.querySelector('div#paypal').hidden = true;
     document.querySelector('div#bitcoin').hidden = true;
-    if (paymentMethod[0].selected) {
+    if (paymentMethod[1].selected) {
         document.querySelector('div#credit-card').hidden = false;
     }
 }
@@ -186,7 +187,7 @@ Function to control which payment option if visible depending on dropdown select
 ***/
 
 function paymentSelection() {
-    
+        
         if (paymentMethod[1].selected) {
             paymentDefaultView();
             document.querySelector('div#credit-card').hidden = false;
@@ -284,17 +285,6 @@ const checkboxValidator = () => {
 
 let fieldsets = document.querySelectorAll('fieldset');
 
-// const paymentValidator = () => {
-//     let payMethod = document.querySelector('select#payment').value;
-//     if (payMethod === 'paypal') { 
-//         console.log('paypal is happening');
-//         return true;
-//     } else if (payMethod === 'bitcoin') {
-//         console.log('bitcoin is happening');
-//         return true;
-//     }
-// }
-
 const creditCardValidator = () => {
     let ccNum = document.querySelector('#cc-num');
     ccNumVal = ccNum.value;
@@ -386,30 +376,30 @@ form.addEventListener('submit', (e) => {
     nameValidator();
     emailValidator();
     checkboxValidator();
-    // paymentValidator();
 
     let payWithValue = document.querySelector('select#payment').value; 
     if(payWithValue === 'credit card') {
         creditCardValidator();
         zipCodeValidator();
         cvvValidator();
-    }
+        console.log("payWith is running");
 
-    if (!creditCardValidator()) {
-        e.preventDefault();
-        console.log('cc validator');
-    }
-
-    if (!zipCodeValidator()) {
-        e.preventDefault();
-        console.log('zip validator');
-    }
-
-    if (!cvvValidator()) {
-        e.preventDefault();
-        console.log('cvv validator');
-    }
+        if (!creditCardValidator()) {
+            e.preventDefault();
+            console.log('cc validator');
+        }
     
+        if (!zipCodeValidator()) {
+            e.preventDefault();
+            console.log('zip validator');
+        }
+    
+        if (!cvvValidator()) {
+            e.preventDefault();
+            console.log('cvv validator');
+        }
+    }
+
     if (!nameValidator()) {
         e.preventDefault();
         console.log('name validator');
@@ -424,9 +414,4 @@ form.addEventListener('submit', (e) => {
        e.preventDefault();
        console.log('boxes validator');
     }
-
-    // if(!paymentValidator()) {
-    //     e.preventDefault();
-    //     console.log('payment validator');
-    //  }
 })

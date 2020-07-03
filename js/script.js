@@ -127,6 +127,7 @@ Event listener to calculate totalCost, disable/enable conflicting activities, & 
 ***/
 
 let clicked = '';
+let checkboxData = ''
 
 activities.addEventListener('change', (e) => {
     clicked = e.target;
@@ -140,7 +141,7 @@ activities.addEventListener('change', (e) => {
     }
 
     for (let i = 0; i < checkboxes.length; i++) {
-        let checkboxData = checkboxes[i].getAttribute('data-day-and-time');
+        checkboxData = checkboxes[i].getAttribute('data-day-and-time');
         if (clickedDayAndTime === checkboxData && clicked !== checkboxes[i]) {
             if (clicked.checked) {
                 checkboxes[i].disabled = true;
@@ -266,7 +267,9 @@ const checkboxValidator = () => {
     for(let i = 0; i < checkboxes.length; i++){
         if(checkboxes[i].checked){
             for(let i = 0; i < checkboxes.length; i++) {
+                if(checkboxes[i].parentNode.style.color === "#d60000") {
                 checkboxes[i].parentNode.style.color = "";
+                }
             }
             checkboxErrorMessage.remove();
             return true

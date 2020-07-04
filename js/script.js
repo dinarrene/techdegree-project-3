@@ -266,24 +266,15 @@ const emailValidator = () => {
 const checkboxValidator = () => {
     for(let i = 0; i < checkboxes.length; i++){
         if(checkboxes[i].checked){
-            for(let i = 0; i < checkboxes.length; i++) {              
-                // if(checkboxes[i].parentNode.style.color === "#d60000") {
-                checkboxes[i].parentNode.style.color = "";
-                // }
-            }
             checkboxErrorMessage.remove();
-            return true
-        } 
+            return true;
+        }
     }
-        
-    for(let i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].parentNode.style.color = "#d60000";
-    }
-    
     checkboxErrorMessage.setAttribute('class', 'errorMessage')
     checkboxErrorMessage.textContent = 'Please select at least 1 activity.';
     activities.after(checkboxErrorMessage);
     return false;
+    
 }
 
 let fieldsets = document.querySelectorAll('fieldset');
@@ -295,8 +286,7 @@ const creditCardValidator = () => {
             ccNum.style.borderColor = "#d60000";
             ccErrorMessage.setAttribute('class', 'errorMessage');
             ccErrorMessage.textContent = 'Please enter a credit card number.';
-            ccNum.after(ccErrorMessage);
-            console.log("there's a problem"); 
+            ccNum.after(ccErrorMessage); 
             return false;
         } else if (ccNumVal.length < 13 || ccNumVal.length > 16 || isNaN(ccNumVal)){
             ccNum.style.borderColor = "#d60000";
@@ -307,7 +297,6 @@ const creditCardValidator = () => {
         } else {   
             ccNum.style.borderColor = "";
             ccErrorMessage.remove();  
-            console.log("cc works"); 
             return true;
         }
 }
@@ -323,8 +312,7 @@ const zipCodeValidator = () => {
             return false;
         } else {  
             zipcode.style.borderColor = "";
-            zipErrorMessage.remove();
-            console.log("zip works");     
+            zipErrorMessage.remove();    
             return true;
         }
 }
@@ -340,8 +328,7 @@ const cvvValidator = () => {
             return false;
         } else {  
             cvv.style.borderColor = "";
-            cvvErrorMessage.remove(); 
-            console.log("cvv works");    
+            cvvErrorMessage.remove();    
             return true;
         }
 }
@@ -385,36 +372,29 @@ form.addEventListener('submit', (e) => {
         creditCardValidator();
         zipCodeValidator();
         cvvValidator();
-        console.log("payWith is running");
 
         if (!creditCardValidator()) {
             e.preventDefault();
-            console.log('cc validator');
         }
     
         if (!zipCodeValidator()) {
             e.preventDefault();
-            console.log('zip validator');
         }
     
         if (!cvvValidator()) {
             e.preventDefault();
-            console.log('cvv validator');
         }
     }
 
     if (!nameValidator()) {
         e.preventDefault();
-        console.log('name validator');
     }
 
     if (!emailValidator()) {
         e.preventDefault();
-        console.log('email validator');
     }
 
     if(!checkboxValidator()) {
        e.preventDefault();
-       console.log('boxes validator');
     }
 })
